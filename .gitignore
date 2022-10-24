@@ -1,0 +1,29 @@
+#   https://blog.51cto.com/u_15785643/5663767
+#   https://blog.csdn.net/kunkliu/article/details/123903598
+#1、配置语法：
+#   以斜杠“/”开头表示目录；
+#   以星号“*”通配多个字符；
+#   以问号“?”通配单个字符
+#   以方括号“[]”包含单个字符的匹配列表；
+#   以叹号“!”表示不忽略(跟踪)匹配到的文件或目录；
+#2、示例：
+#   #此为注释 – 将被 git 忽略
+#   * .a  # 忽略所有 .a 结尾的文件
+#   !lib.a  # 但 lib.a 除外
+#   /TODO # 仅仅忽略项目根目录下的 TODO 文件, 不包括 subdir/TODO
+#   build/ # 忽略 build/ 目录下的所有文件
+#   doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
+
+
+#   正式配置
+
+#   过滤文件夹
+Library
+Logs
+obj
+Temp
+#   过滤文件
+*.csproj
+*.sln
+*.vsconfig
+.vs
