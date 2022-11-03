@@ -18,7 +18,7 @@ public class BagPanel : BasePanel
         //初始预设体名
         sv.InitItemResName("UI/BagItem");
         //初始化格子间隔大小 以及 一行几列
-        sv.InitItemSizeAndCol(200, 150, 2);
+        sv.InitItemSizeAndCol(117, 117, 4);
         //初始化COntent父对象以及可视范围
         sv.InitContentAndSVH(content, 925);
         //初始化数据来源
