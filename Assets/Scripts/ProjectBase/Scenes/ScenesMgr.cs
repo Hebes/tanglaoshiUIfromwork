@@ -44,8 +44,8 @@ public class ScenesMgr : BaseManager<ScenesMgr>
     private IEnumerator ReallyLoadSceneAsyn(string name, UnityAction fun)
     {
         AsyncOperation ao = SceneManager.LoadSceneAsync(name);
-        //可以得到场景加载的一个进度
-        while(!ao.isDone)
+        ////可以得到场景加载的一个进度
+        while (!ao.isDone)
         {
             //事件中心 向外分发 进度情况  外面想用就用
             EventCenter.GetInstance().EventTrigger("进度条更新", ao.progress);

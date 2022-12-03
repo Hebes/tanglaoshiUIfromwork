@@ -17,9 +17,6 @@ public class LoginPanl : BasePanel
 
     void Start()
     {
-        // GetControl<Button>("StartButton").onClick.AddListener(ClickStart);
-        // GetControl<Button>("QuitButton").onClick.AddListener(ClickQuit);
-        // GetControl<Button>("SettingButton").onClick.AddListener(ClickSetting);
         UIManager.AddCustomEventListener(GetControl<Button>("StartButton"), 
         EventTriggerType.PointerEnter, (data) =>
         {
@@ -31,12 +28,6 @@ public class LoginPanl : BasePanel
         {
             Debug.Log("离开");
         });
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     //外部不能调用  子类可以调用

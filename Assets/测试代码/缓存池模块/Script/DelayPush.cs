@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class DelayPush : MonoBehaviour
 {
-
-
     private void OnEnable()
     {
-
         Invoke("Push", 1);
     }
 

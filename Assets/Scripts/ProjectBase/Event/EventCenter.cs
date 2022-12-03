@@ -83,7 +83,6 @@ public class EventCenter : BaseManager<EventCenter>
         }
     }
 
-
     /// <summary>
     /// 移除对应的事件监听
     /// </summary>

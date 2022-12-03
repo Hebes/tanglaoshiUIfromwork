@@ -13,8 +13,8 @@ public class MonoController : MonoBehaviour {
 
     private event UnityAction updateEvent;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         DontDestroyOnLoad(this.gameObject);
 	}
 	
