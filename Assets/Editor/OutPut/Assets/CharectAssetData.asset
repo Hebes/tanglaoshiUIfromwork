@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8614fc18456227841bc87314ebc7d73e, type: 3}
+  m_Name: CharectAssetData
+  m_EditorClassIdentifier: 
+  CharectList:
+  - ID: 1
+    Name: "\u6D4B\u8BD51"
+    Skill: 0100000002000000
+    Damage: 4
+    Attack: 1.1
+    OK: 1
+    Sprite: {fileID: 21300000, guid: 8015ebce8490cec47b4df4ea4af0e2d3, type: 3}
+  - ID: 2
+    Name: "\u6D4B\u8BD52"
+    Skill: 0100000003000000
+    Damage: 5
+    Attack: 2.1
+    OK: 0
+    Sprite: {fileID: 21300000, guid: 8015ebce8490cec47b4df4ea4af0e2d3, type: 3}
+  - ID: 3
+    Name: "\u6D4B\u8BD53"
+    Skill: 0100000004000000
+    Damage: 6
+    Attack: 3.1
+    OK: 0
+    Sprite: {fileID: 21300000, guid: 8015ebce8490cec47b4df4ea4af0e2d3, type: 3}
+  - ID: 4
+    Name: "\u6D4B\u8BD54"
+    Skill: 0100000005000000
+    Damage: 7
+    Attack: 4.1
+    OK: 1
+    Sprite: {fileID: 21300000, guid: 8015ebce8490cec47b4df4ea4af0e2d3, type: 3}
+  - ID: 5
+    Name: "\u6D4B\u8BD55"
+    Skill: 0100000006000000
+    Damage: 8
+    Attack: 5.1
+    OK: 1
+    Sprite: {fileID: 21300000, guid: 8015ebce8490cec47b4df4ea4af0e2d3, type: 3}
+  - ID: 6
+    Name: "\u6D4B\u8BD56"
+    Skill: 0100000007000000
+    Damage: 9
+    Attack: 6.1
+    OK: 0
+    Sprite: {fileID: 21300000, guid: 8015ebce8490cec47b4df4ea4af0e2d3, type: 3}
+  - ID: 7
+    Name: "\u6D4B\u8BD57"
+    Skill: 0100000008000000
+    Damage: 10
+    Attack: 7.1
+    OK: 0
+    Sprite: {fileID: 21300000, guid: 8015ebce8490cec47b4df4ea4af0e2d3, type: 3}
+  - ID: 8
+    Name: "\u6D4B\u8BD58"
+    Skill: 0100000009000000
+    Damage: 11
+    Attack: 8.1
+    OK: 0
+    Sprite: {fileID: 21300000, guid: 8015ebce8490cec47b4df4ea4af0e2d3, type: 3}
