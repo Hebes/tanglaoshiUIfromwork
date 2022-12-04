@@ -5,16 +5,17 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DebugAddListener : MonoBehaviour
+public class DebugAddListener : SingletonAutoMono<DebugAddListener>
 {
-    
+
     //private bool IsQuitWhenException=true;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         Application.logMessageReceived += Handler;
-        DontDestroyOnLoad(this);
     }
+
     private void OnDestroy()
     {
         Application.logMessageReceived -= Handler;

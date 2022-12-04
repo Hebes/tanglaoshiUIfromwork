@@ -1,0 +1,7 @@
+[time]:2022/12/4 15:37:01
+[type]:Exception
+[exception message]:UnassignedReferenceException: The variable gameObject1 of DebugTest has not been assigned.
+You probably need to assign the gameObject1 variable of the DebugTest script in the inspector.
+[stack Trace]:UnityEngine.Object.set_name (System.String value) (at <6f7cbd2409704976852490551564c873>:0)
+DebugTest.Start () (at Assets/测试代码/Debug异常输出/DebugTest.cs:14)
+
