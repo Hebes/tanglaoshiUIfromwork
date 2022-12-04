@@ -11,7 +11,8 @@ public class DebugLogTest2 : MonoBehaviour
         {
             eLoggerType = LoggerType.Unity,
             enableSave = true,
-            savePath = $"{Application.persistentDataPath}/测试代码/Debug主动异常输出/",//Assets/测试代码/Debug主动异常输出
+            //savePath = $"{Application.persistentDataPath}/测试代码/Debug主动异常输出/",//Assets/测试代码/Debug主动异常输出
+            savePath = $"{Application.dataPath}/测试代码/Debug主动异常输出/",//Assets/测试代码/Debug主动异常输出
             saveName = "Debug主动异常输出.txt",
         };
         PELog.InitSettings(cfg);

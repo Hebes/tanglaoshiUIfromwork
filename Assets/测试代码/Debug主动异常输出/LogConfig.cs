@@ -94,7 +94,7 @@ namespace LogUtils
         /// <summary>
         /// 保存路径
         /// </summary>
-        public string _savePath;
+        private string _savePath;
         public string savePath 
         {
             get 
