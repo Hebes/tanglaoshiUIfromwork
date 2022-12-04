@@ -239,6 +239,9 @@ namespace LogUtils
         /// </summary>
         private static ILogger logger;
         private static StreamWriter LogFiLeWriter = null;
+
+        private const string logLock = "PELogLock";
+
         /// <summary>
         /// 初始化设置
         /// </summary>
@@ -308,9 +311,12 @@ namespace LogUtils
             if (cfg.enableLog == false)
                 return;
             msg = DecorateLog(string.Format(msg, args));
-            logger.Log(msg);
-            if (cfg.enableSave)
-                WriteToFile(string.Format($"[L]{msg}"));
+            lock (logLock)
+            {
+                logger.Log(msg);
+                if (cfg.enableSave)
+                    WriteToFile(string.Format($"[L]{msg}"));
+            }
         }
 
         /// <summary>
@@ -322,9 +328,12 @@ namespace LogUtils
             if (cfg.enableLog == false)
                 return;
             string msg = DecorateLog(obj.ToString());
-            logger.Log(msg);
-            if (cfg.enableSave)
-                WriteToFile(string.Format($"[L]{msg}"));
+            lock (logLock)
+            {
+                logger.Log(msg);
+                if (cfg.enableSave)
+                    WriteToFile(string.Format($"[L]{msg}"));
+            }
         }
 
         /// <summary>
@@ -338,9 +347,12 @@ namespace LogUtils
             if (cfg.enableLog == false)
                 return;
             msg = DecorateLog(string.Format(msg, args));
-            logger.Log(msg, logCoLorEnum);
-            if (cfg.enableSave)
-                WriteToFile(string.Format($"[L]{msg}"));
+            lock (logLock)
+            {
+                logger.Log(msg, logCoLorEnum);
+                if (cfg.enableSave)
+                    WriteToFile(string.Format($"[L]{msg}"));
+            }
         }
 
         /// <summary>
@@ -353,9 +365,12 @@ namespace LogUtils
             if (cfg.enableLog == false)
                 return;
             string msg = DecorateLog(obj.ToString());
-            logger.Log(msg, logCoLorEnum);
-            if (cfg.enableSave)
-                WriteToFile(string.Format($"[L]{msg}"));
+            lock (logLock)
+            {
+                logger.Log(msg, logCoLorEnum);
+                if (cfg.enableSave)
+                    WriteToFile(string.Format($"[L]{msg}"));
+            }
         }
 
         /// <summary>
@@ -368,9 +383,12 @@ namespace LogUtils
             if (cfg.enableLog == false)
                 return;
             msg = DecorateLog(string.Format(msg, args), true);
-            logger.Log(msg, LogCoLor.Magenta);
-            if (cfg.enableSave)
-                WriteToFile(string.Format($"[T]{msg}"));
+            lock (logLock)
+            {
+                logger.Log(msg, LogCoLor.Magenta);
+                if (cfg.enableSave)
+                    WriteToFile(string.Format($"[T]{msg}"));
+            }
         }
 
         /// <summary>
@@ -382,9 +400,12 @@ namespace LogUtils
             if (cfg.enableLog == false)
                 return;
             string msg = DecorateLog(obj.ToString());
-            logger.Log(msg, LogCoLor.Magenta, true);
-            if (cfg.enableSave)
-                WriteToFile(string.Format($"[T]{msg}"));
+            lock (logLock)
+            {
+                logger.Log(msg, LogCoLor.Magenta, true);
+                if (cfg.enableSave)
+                    WriteToFile(string.Format($"[T]{msg}"));
+            }
         }
 
         /// <summary>
@@ -397,9 +418,12 @@ namespace LogUtils
             if (cfg.enableLog == false)
                 return;
             msg = DecorateLog(string.Format(msg, args));
-            logger.Warn(msg);
-            if (cfg.enableSave)
-                WriteToFile(string.Format($"[W]{msg}"));
+            lock (logLock)
+            {
+                logger.Warn(msg);
+                if (cfg.enableSave)
+                    WriteToFile(string.Format($"[W]{msg}"));
+            }
         }
         /// <summary>
         /// 打印警告日志
@@ -410,9 +434,12 @@ namespace LogUtils
             if (cfg.enableLog == false)
                 return;
             string msg = DecorateLog(obj.ToString());
-            logger.Warn(msg);
-            if (cfg.enableSave)
-                WriteToFile(string.Format($"[W]{msg}"));
+            lock (logLock)
+            {
+                logger.Warn(msg);
+                if (cfg.enableSave)
+                    WriteToFile(string.Format($"[W]{msg}"));
+            }
         }
 
         /// <summary>
@@ -425,9 +452,12 @@ namespace LogUtils
             if (cfg.enableLog == false)
                 return;
             msg = DecorateLog(string.Format(msg, args), true);
-            logger.Error(msg);
-            if (cfg.enableSave)
-                WriteToFile(string.Format($"[E]{msg}"));
+            lock (logLock)
+            {
+                logger.Error(msg);
+                if (cfg.enableSave)
+                    WriteToFile(string.Format($"[E]{msg}"));
+            }
         }
 
         /// <summary>
@@ -439,9 +469,12 @@ namespace LogUtils
             if (cfg.enableLog == false)
                 return;
             string msg = DecorateLog(obj.ToString(), true);
-            logger.Error(msg);
-            if (cfg.enableSave)
-                WriteToFile(string.Format($"[E]{msg}"));
+            lock (logLock)
+            {
+                logger.Error(msg);
+                if (cfg.enableSave)
+                    WriteToFile(string.Format($"[E]{msg}"));
+            }
         }
 
         #region Tool

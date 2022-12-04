@@ -1,0 +1,11 @@
+[L]#时间:04:57:01--874 ThreadID:1 >> 进入NoneGameState
+[L]#时间:04:57:01--877 ThreadID:1 >> sdsdsdHello word
+[L]#时间:04:57:01--877 ThreadID:1 >> DarkRedHello word
+[L]#时间:04:57:01--877 ThreadID:1 >> GreenHello word
+[L]#时间:04:57:01--877 ThreadID:1 >> BlueHello word
+[L]#时间:04:57:01--877 ThreadID:1 >> CyanHello word
+[L]#时间:04:57:01--878 ThreadID:1 >> MagentaHello word
+[L]#时间:04:57:01--878 ThreadID:1 >> DarkYellowHello word
+[T]#时间:04:57:01--878 ThreadID:1 >> 打印堆栈sss 
+StackTrace:
+	D:\Unity\UnityProject\唐老师框架\tanglaoshiUIfromwork\Assets\测试代码\Debug主动异常输出\DebugLogTest2.cs::Void Start()line:30
