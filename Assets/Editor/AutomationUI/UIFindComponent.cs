@@ -1,29 +1,38 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GeneratorFindComponentConfig : Editor
+/// <summary>
+/// UI组件查找
+/// </summary>
+public class UIFindComponent : Editor
 {
+
     public static string CSharpSavePath = Application.dataPath + "/ATempUIViewConfig";        //view组件查找脚本的生成路径
 
+    private static Dictionary<string, List<Component>> controlDic = null;
+
     //******************************通用代码******************************
-    public static Dictionary<string, List<Component>> FindComponents(GameObject obj)
+    public static Dictionary<string, List<Component>> FindComponents(GameObject obj, string keyValue)
     {
         Dictionary<string, List<Component>> controlDic = new Dictionary<string, List<Component>>();
         //查找组件
-        FindChildrenControl<Button>(obj, controlDic);
-        FindChildrenControl<Image>(obj, controlDic);
-        FindChildrenControl<Text>(obj, controlDic);
-        FindChildrenControl<Toggle>(obj, controlDic);
-        FindChildrenControl<Slider>(obj, controlDic);
-        FindChildrenControl<ScrollRect>(obj, controlDic);
-        FindChildrenControl<InputField>(obj, controlDic);
-        FindChildrenControl<Transform>(obj, controlDic);
-        FindChildrenControl<ToggleGroup>(obj, controlDic);
-        FindChildrenControl<Dropdown>(obj, controlDic);
+        FindChildrenControl<Button>(obj, controlDic, keyValue);
+        FindChildrenControl<Image>(obj, controlDic, keyValue);
+        FindChildrenControl<Text>(obj, controlDic, keyValue);
+        FindChildrenControl<Toggle>(obj, controlDic, keyValue);
+        FindChildrenControl<Slider>(obj, controlDic, keyValue);
+        FindChildrenControl<ScrollRect>(obj, controlDic, keyValue);
+        FindChildrenControl<InputField>(obj, controlDic, keyValue);
+        FindChildrenControl<Transform>(obj, controlDic, keyValue);
+        FindChildrenControl<ToggleGroup>(obj, controlDic, keyValue);
+        FindChildrenControl<Dropdown>(obj, controlDic, keyValue);
         return controlDic;
     }
 
@@ -31,7 +40,7 @@ public class GeneratorFindComponentConfig : Editor
     /// 找到子对象的对应控件
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    private static void FindChildrenControl<T>(GameObject gameObject, Dictionary<string, List<Component>> controlDic) where T : Component
+    private static void FindChildrenControl<T>(GameObject gameObject, Dictionary<string, List<Component>> controlDic, string keyValue) where T : Component
     {
         T[] controls = gameObject.GetComponentsInChildren<T>();
 
@@ -39,7 +48,7 @@ public class GeneratorFindComponentConfig : Editor
         {
             string objName = controls[i].gameObject.name;//获取组件的名称
 
-            if (!objName.StartsWith("V_"))
+            if (!objName.StartsWith(keyValue))//keyValue = V_
                 continue;
 
             if (controlDic.ContainsKey(objName))//字典里面有这个组件
@@ -74,10 +83,10 @@ public class GeneratorFindComponentConfig : Editor
     {
         if (!Directory.Exists(folderPath))//是否存在这个文件
         {
-            UnityEngine.Debug.Log("文件夹不存在,正在创建...");
+            Debug.Log("文件夹不存在,正在创建...");
             Directory.CreateDirectory(folderPath);//创建
             AssetDatabase.Refresh();//刷新编辑器
-            UnityEngine.Debug.Log("创建成功!");
+            Debug.Log("创建成功!");
         }
     }
 
@@ -112,7 +121,7 @@ public class GeneratorFindComponentConfig : Editor
     {
         //添加前缀
         if (!string.IsNullOrEmpty(beginStr))
-            return beginStr = $"{beginStr}.";
+            return $"{beginStr}.";
         return beginStr;
     }
 
@@ -130,11 +139,11 @@ public class GeneratorFindComponentConfig : Editor
         string filePath = $"{CSharpSavePath}/{obj.name}Config.cs";
         if (!File.Exists(filePath))
         {
-            UnityEngine.Debug.Log("文件不存在,进行创建...");
+            Debug.Log("文件不存在,进行创建...");
             using (StreamWriter writer = File.CreateText(filePath))//生成文件
             {
                 writer.Write(sb);
-                UnityEngine.Debug.Log("内容写入成功!");
+                Debug.Log("内容写入成功!");
             }
         }
         else
@@ -202,18 +211,56 @@ public class GeneratorFindComponentConfig : Editor
             }
             sb.AppendLine();
         }
-        UnityEngine.Debug.Log(sb.ToString());
+        Debug.Log(sb.ToString());
     }
 
-    //******************************打印里面输出组件查找代码******************************
+    //******************************通过Transform拓展组件查找******************************
     /// <summary>
-    /// 打印里面输出Config
+    /// Transform拓展组件查找打印
     /// </summary>
     /// <param name="obj"></param>
-    public static void DebugOutGetComponentDemo(string beginStr, Dictionary<string, List<Component>> controlDic)
+    public static void DebugOutGetTransformComponentDemo(Dictionary<string, List<Component>> controlDic, string beginStr)
     {
         //添加前缀
         beginStr = AddPrefix(beginStr);
+        //字典重新排列 重新排列
+        Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(controlDic);
+        //打印
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("/// <summary>");
+        sb.AppendLine("/// 通过Transform拓展组件查找");
+        sb.AppendLine("/// </summary>");
+        sb.AppendLine("private void OnGetTransformComponent()");
+        sb.AppendLine("{");
+        foreach (var item in controlDicTemp)
+        {
+            string itemKey = item.Key;
+            //过滤模块
+            switch (item.Key)
+            {
+                case "RectTransform":
+                    itemKey = "Transform";
+                    break;
+            }
+            foreach (var child in item.Value)
+            {
+                sb.AppendLine($"\t{child}{itemKey} = {beginStr}OnGet{itemKey}(\"{child}\");");
+            }
+            sb.AppendLine();
+        }
+        sb.AppendLine("}");
+        Debug.Log(sb.ToString());
+    }
+    //******************************打印里面输出组件查找代码******************************
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="beginStr"></param>
+    /// <param name="controlDic"></param>
+    public static void DebugOutGetComponentDemo(string beginStr, Dictionary<string, List<Component>> controlDic, bool isAddPrefix)
+    {
+        //添加前缀
+        beginStr = isAddPrefix ? AddPrefix(beginStr) : string.Empty;
         //字典重新排列 重新排列
         Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(controlDic);
         //打印
@@ -282,6 +329,6 @@ public class GeneratorFindComponentConfig : Editor
             sb.AppendLine();
         }
         sb.AppendLine("}");
-        UnityEngine.Debug.Log(sb.ToString());
+        Debug.Log(sb.ToString());
     }
 }
