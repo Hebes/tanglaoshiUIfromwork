@@ -186,7 +186,7 @@ public class UIFindComponent : Editor
     /// 打印里面输出Config
     /// </summary>
     /// <param name="obj"></param>
-    public static void DebugOutDemo(Dictionary<string, List<Component>> controlDic, bool isGetSet)
+    public static string DebugOutDemo(Dictionary<string, List<Component>> controlDic, bool isGetSet)
     {
         //字典重新排列
         Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(controlDic);
@@ -212,52 +212,16 @@ public class UIFindComponent : Editor
             sb.AppendLine();
         }
         Debug.Log(sb.ToString());
+        return sb.ToString();
     }
 
-    //******************************通过Transform拓展组件查找******************************
-    /// <summary>
-    /// Transform拓展组件查找打印
-    /// </summary>
-    /// <param name="obj"></param>
-    public static void DebugOutGetTransformComponentDemo(Dictionary<string, List<Component>> controlDic, string beginStr)
-    {
-        //添加前缀
-        beginStr = AddPrefix(beginStr);
-        //字典重新排列 重新排列
-        Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(controlDic);
-        //打印
-        StringBuilder sb = new StringBuilder();
-        sb.AppendLine("/// <summary>");
-        sb.AppendLine("/// 通过Transform拓展组件查找");
-        sb.AppendLine("/// </summary>");
-        sb.AppendLine("private void OnGetTransformComponent()");
-        sb.AppendLine("{");
-        foreach (var item in controlDicTemp)
-        {
-            string itemKey = item.Key;
-            //过滤模块
-            switch (item.Key)
-            {
-                case "RectTransform":
-                    itemKey = "Transform";
-                    break;
-            }
-            foreach (var child in item.Value)
-            {
-                sb.AppendLine($"\t{child}{itemKey} = {beginStr}OnGet{itemKey}(\"{child}\");");
-            }
-            sb.AppendLine();
-        }
-        sb.AppendLine("}");
-        Debug.Log(sb.ToString());
-    }
     //******************************打印里面输出组件查找代码******************************
     /// <summary>
     /// 
     /// </summary>
     /// <param name="beginStr"></param>
     /// <param name="controlDic"></param>
-    public static void DebugOutGetComponentDemo(string beginStr, Dictionary<string, List<Component>> controlDic, bool isAddPrefix)
+    public static string DebugOutGetComponentDemo(Dictionary<string, List<Component>> controlDic, string beginStr, bool isAddPrefix)
     {
         //添加前缀
         beginStr = isAddPrefix ? AddPrefix(beginStr) : string.Empty;
@@ -285,7 +249,8 @@ public class UIFindComponent : Editor
             sb.AppendLine();
         }
         sb.AppendLine("}");
-        UnityEngine.Debug.Log(sb.ToString());
+        Debug.Log(sb.ToString());
+        return sb.ToString();
     }
 
     //******************************Button按钮监听代码******************************
@@ -294,7 +259,7 @@ public class UIFindComponent : Editor
     /// </summary>
     /// <param name="beginStr"></param>
     /// <param name="controlDic"></param>
-    public static void DebugOutAddListenerDemo(string beginStr, Dictionary<string, List<Component>> controlDic)
+    public static string DebugOutAddListenerDemo(string beginStr, Dictionary<string, List<Component>> controlDic)
     {
         //添加前缀
         beginStr = AddPrefix(beginStr);
@@ -330,5 +295,6 @@ public class UIFindComponent : Editor
         }
         sb.AppendLine("}");
         Debug.Log(sb.ToString());
+        return sb.ToString();
     }
 }
