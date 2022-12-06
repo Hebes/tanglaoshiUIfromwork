@@ -226,7 +226,7 @@ public class UIFindComponent : Editor
     public static string DebugOutGetComponentDemo(FindConfig findtConfig)
     {
         //添加前缀
-        findtConfig.beginStr = findtConfig.isAddPrefix ? AddPrefix(findtConfig.beginStr) : string.Empty;
+        string beginStr = findtConfig.isAddPrefix ? AddPrefix(findtConfig.beginStr) : string.Empty;
         //字典重新排列 重新排列
         Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(findtConfig.controlDic);
         //打印
@@ -251,11 +251,11 @@ public class UIFindComponent : Editor
             {
                 case FindConfig.FindComponentType.UIFind:
                     foreach (var child in item.Value)
-                        sb.AppendLine($"\t{child}{itemKey} = {findtConfig.beginStr}Get{itemKey}(\"{child}\");");
+                        sb.AppendLine($"\t{child}{itemKey} = {beginStr}Get{itemKey}(\"{child}\");");
                     break;
                 case FindConfig.FindComponentType.TfFing:
                     foreach (var child in item.Value)
-                        sb.AppendLine($"\t{child}{itemKey} = {findtConfig.beginStr}OnGet{itemKey}(\"{child}\");");
+                        sb.AppendLine($"\t{child}{itemKey} = {beginStr}OnGet{itemKey}(\"{child}\");");
                     break;
                 default:
                     break;
@@ -279,7 +279,7 @@ public class UIFindComponent : Editor
     public static string DebugOutAddListenerDemo(FindConfig findtConfig)
     {
         //添加前缀
-        findtConfig.beginStr = AddPrefix(findtConfig.beginStr);
+        string beginStr = AddPrefix(findtConfig.beginStr);
         //字典重新排列 重新排列
         Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(findtConfig.controlDic);
         //打印
@@ -299,11 +299,11 @@ public class UIFindComponent : Editor
                 {
                     case "Button":
                         //V_HeiShiButton.onClick.AddListener(cityUI.HeiShi); 模板
-                        sb.AppendLine($"{child}{itemKey}.onClick.AddListener({findtConfig.beginStr}{child}AddListener);");
+                        sb.AppendLine($"{child}{itemKey}.onClick.AddListener({beginStr}{child}AddListener);");
                         break;
                     case "Toggle":
                         //toggle.onValueChanged.AddListener(toggleAddListener); 模板
-                        sb.AppendLine($"{child}{itemKey}.onValueChanged.AddListener({findtConfig.beginStr}{child}AddListener);");
+                        sb.AppendLine($"{child}{itemKey}.onValueChanged.AddListener({beginStr}{child}AddListener);");
                         break;
                     default:
                         break;
