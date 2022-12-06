@@ -13,6 +13,7 @@ public class UIAutomationTool : EditorWindow
 
     private static bool isAddPrefix { get; set; }
     private Vector2 scrollPosition { get; set; } = Vector2.zero;
+
     public string InputComponentName { get; private set; }
     public string InputTransformComponentName { get; private set; }
 
@@ -42,16 +43,38 @@ public class UIAutomationTool : EditorWindow
                     //EditorGUILayout.LabelField("生成Config脚本", EditorStyles.label);
                     //if (GUILayout.Button("生成Config脚本", GUILayout.Width(150))) { CreatConfig(); }
                     EditorGUILayout.LabelField("Debug生成Config代码", GUILayout.Width(200f));//EditorStyles.label
-                    if (GUILayout.Button("打印生成Config代码", GUILayout.Width(200f))) { PrintConfig(UIprefix); }
+                    if (GUILayout.Button("打印生成Config代码", GUILayout.Width(200f)))
+                    {
+                        PrintConfig(new FindConfig()
+                        {
+                            KeyValue = UIprefix,
+                        });
+                    }
                     //******************************组件查找代码******************************
                     GUILayout.Space(5f);
                     EditorGUILayout.LabelField("组件查找代码", GUILayout.Width(100f));
                     isAddPrefix = GUILayout.Toggle(isAddPrefix, "是否添加前缀");
-                    if (GUILayout.Button("组件查找代码", GUILayout.Width(200))) { ComponentFind(isAddPrefix, UIprefix, InputComponentName); }
+                    if (GUILayout.Button("组件查找代码", GUILayout.Width(200)))
+                    {
+                        ComponentFind(new FindConfig()
+                        {
+                            isAddPrefix = isAddPrefix,
+                            KeyValue = UIprefix,
+                            beginStr = InputComponentName,
+                            findComponentType = FindConfig.FindComponentType.UIFind,
+                        });
+                    }
                     //******************************按钮监听代码******************************
                     GUILayout.Space(5f);
                     EditorGUILayout.LabelField("按钮监听代码", GUILayout.Width(100f));
-                    if (GUILayout.Button("按钮监听代码", GUILayout.Width(200))) { AddListener(UIprefix,InputComponentName); }
+                    if (GUILayout.Button("按钮监听代码", GUILayout.Width(200)))
+                    {
+                        AddListener(new FindConfig()
+                        {
+                            KeyValue = UIprefix,
+                            beginStr = InputComponentName,
+                        });
+                    }
                     //******************************组件重命名******************************
                     GUILayout.Space(5f);
                     EditorGUILayout.LabelField($"前缀添加{UIprefix}:", GUILayout.Width(70f));//EditorStyles.label
@@ -64,7 +87,17 @@ public class UIAutomationTool : EditorWindow
                     //******************************一键生成******************************
                     GUILayout.Space(5f);
                     EditorGUILayout.LabelField($"一键生成", GUILayout.Width(70f));//EditorStyles.label
-                    if (GUILayout.Button($"一键生成", GUILayout.Width(200))) { OneKeyGeneration(UIprefix, InputComponentName, isAddPrefix); }
+                    if (GUILayout.Button($"一键生成", GUILayout.Width(200)))
+                    {
+                        OneKeyGeneration(new FindConfig()
+                        {
+                            beginStr = InputComponentName,
+                            findComponentType = FindConfig.FindComponentType.UIFind,
+                            isAddPrefix = isAddPrefix,
+                            isGetSet = true,
+                            KeyValue = UIprefix,
+                        });
+                    }
                 }
                 GUILayout.EndVertical(); GUILayout.Space(5f);
 
@@ -79,15 +112,37 @@ public class UIAutomationTool : EditorWindow
                     //******************************Transform组件查找打印******************************
                     GUILayout.Space(5f);
                     EditorGUILayout.LabelField("Transform组件查找打印:", GUILayout.Width(170f));//EditorStyles.label
-                    if (GUILayout.Button("Transform组件查找打印", GUILayout.Width(200))) { PrintConfig(TransformPrefix); }
+                    if (GUILayout.Button("Transform组件查找打印", GUILayout.Width(200)))
+                    {
+                        PrintConfig(new FindConfig()
+                        {
+                            KeyValue = TransformPrefix,
+                        });
+                    }
                     //******************************按钮监听代码******************************
                     GUILayout.Space(5f);
                     EditorGUILayout.LabelField("按钮监听代码", GUILayout.Width(100f));
-                    if (GUILayout.Button("按钮监听代码", GUILayout.Width(200))) { AddListener(TransformPrefix,InputTransformComponentName); }
+                    if (GUILayout.Button("按钮监听代码", GUILayout.Width(200)))
+                    {
+                        AddListener(new FindConfig()
+                        {
+                            KeyValue = TransformPrefix,
+                            beginStr = InputTransformComponentName,
+                        });
+                    }
                     //******************************Transform组件获取打印******************************
                     GUILayout.Space(5f);
                     EditorGUILayout.LabelField("Transform组件获取打印:", GUILayout.Width(170f));//EditorStyles.label
-                    if (GUILayout.Button("Transform组件获取打印", GUILayout.Width(200))) { ComponentFind(true, TransformPrefix, InputTransformComponentName); }
+                    if (GUILayout.Button("Transform组件获取打印", GUILayout.Width(200)))
+                    {
+                        ComponentFind(new FindConfig()
+                        {
+                            isAddPrefix = true,
+                            KeyValue = TransformPrefix,
+                            beginStr = InputTransformComponentName,
+                            findComponentType = FindConfig.FindComponentType.TfFing,
+                        });
+                    }
                     //******************************组件重命名******************************
                     GUILayout.Space(5f);
                     EditorGUILayout.LabelField($"前缀添加{TransformPrefix}:", GUILayout.Width(70f));//EditorStyles.label
@@ -100,7 +155,17 @@ public class UIAutomationTool : EditorWindow
                     //******************************一键生成******************************
                     GUILayout.Space(5f);
                     EditorGUILayout.LabelField($"一键生成", GUILayout.Width(70f));//EditorStyles.label
-                    if (GUILayout.Button($"一键生成", GUILayout.Width(200))) { OneKeyGeneration(TransformPrefix, InputTransformComponentName, true); }
+                    if (GUILayout.Button($"一键生成", GUILayout.Width(200)))
+                    {
+                        OneKeyGeneration(new FindConfig()
+                        {
+                            beginStr = InputTransformComponentName,
+                            findComponentType = FindConfig.FindComponentType.TfFing,
+                            isAddPrefix = true,
+                            isGetSet = true,
+                            KeyValue = TransformPrefix,
+                        });
+                    }
                 }
                 GUILayout.EndVertical(); GUILayout.Space(5f);
             }
@@ -129,63 +194,64 @@ public class UIAutomationTool : EditorWindow
     /// 一键生成
     /// </summary>
     /// <param name="KeyValue"></param>
-    private void OneKeyGeneration(string KeyValue, string InputComponentName, bool isAddPrefix)
+    private void OneKeyGeneration(FindConfig findtConfig)
     {
         //获取到当前选择的物体
         GameObject obj = Selection.objects.First() as GameObject;
-        Dictionary<string, List<Component>> ComponentsDic = UIFindComponent.FindComponents(obj, KeyValue);
+        Dictionary<string, List<Component>> ComponentsDic = UIFindComponent.FindComponents(obj, findtConfig.KeyValue);
+        findtConfig.controlDic = ComponentsDic;
         StringBuilder sb = new StringBuilder();
         //打印组件代码
-        sb.AppendLine(UIFindComponent.DebugOutDemo(ComponentsDic, true));
+        sb.AppendLine(UIFindComponent.DebugOutDemo(findtConfig));
         //获取组件
-        sb.AppendLine(UIFindComponent.DebugOutGetComponentDemo(ComponentsDic, InputComponentName, isAddPrefix));
+        sb.AppendLine(UIFindComponent.DebugOutGetComponentDemo(findtConfig));
         //按钮监听
-        sb.AppendLine(UIFindComponent.DebugOutAddListenerDemo(InputComponentName, ComponentsDic));
+        sb.AppendLine(UIFindComponent.DebugOutAddListenerDemo(findtConfig));
         Debug.Log(sb.ToString());
     }
     //*****************************************************UI*****************************************************
-    /// <summary>
-    /// 生成Config脚本
-    /// </summary>
-    private void CreatConfig()
-    {
-        //获取到当前选择的物体
-        GameObject obj = Selection.objects.First() as GameObject;
-        Dictionary<string, List<Component>> ComponentsDic = UIFindComponent.FindComponents(obj, UIprefix);
-        UIFindComponent.CreatCSharpScript(obj, ComponentsDic);
-    }
+    ///// <summary>
+    ///// 生成Config脚本
+    ///// </summary>
+    //private void CreatConfig()
+    //{
+    //    //获取到当前选择的物体
+    //    GameObject obj = Selection.objects.First() as GameObject;
+    //    Dictionary<string, List<Component>> ComponentsDic = UIFindComponent.FindComponents(obj, UIprefix);
+    //    UIFindComponent.CreatCSharpScript(obj, ComponentsDic);
+    //}
 
     /// <summary>
     /// 打印生成Config代码
     /// </summary>
-    private void PrintConfig(string keyVale)
+    private void PrintConfig(FindConfig findtConfig)
     {
         //获取到当前选择的物体
         GameObject obj = Selection.objects.First() as GameObject;
-        Dictionary<string, List<Component>> ComponentsDic = UIFindComponent.FindComponents(obj, keyVale);
-        UIFindComponent.DebugOutDemo(ComponentsDic, true);
+        findtConfig.controlDic = UIFindComponent.FindComponents(obj, findtConfig.KeyValue);
+        UIFindComponent.DebugOutDemo(findtConfig);
     }
 
     /// <summary>
     /// 打印组件查找代码
     /// </summary>
-    private void ComponentFind(bool isAddPrefix, string keyValue,string InputComponentName)
+    private void ComponentFind(FindConfig findtConfig)
     {
         //获取到当前选择的物体
         GameObject obj = Selection.objects.First() as GameObject;
-        Dictionary<string, List<Component>> ComponentsDic = UIFindComponent.FindComponents(obj, keyValue);
-        UIFindComponent.DebugOutGetComponentDemo(ComponentsDic, InputComponentName, isAddPrefix);//getComponent.
+        findtConfig.controlDic = UIFindComponent.FindComponents(obj, findtConfig.KeyValue);
+        UIFindComponent.DebugOutGetComponentDemo(findtConfig);//getComponent.
     }
 
     /// <summary>
     /// 监听代码
     /// </summary>
-    private void AddListener(string keyValue, string InputComponentName)
+    private void AddListener(FindConfig findtConfig)
     {
         //获取到当前选择的物体
         GameObject obj = Selection.objects.First() as GameObject;
-        Dictionary<string, List<Component>> ComponentsDic = UIFindComponent.FindComponents(obj, keyValue);
-        UIFindComponent.DebugOutAddListenerDemo(InputComponentName, ComponentsDic);
+        findtConfig.controlDic = UIFindComponent.FindComponents(obj, findtConfig.KeyValue);
+        UIFindComponent.DebugOutAddListenerDemo(findtConfig);
     }
 
     /// <summary>

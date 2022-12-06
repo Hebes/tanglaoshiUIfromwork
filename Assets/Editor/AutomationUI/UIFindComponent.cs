@@ -186,10 +186,10 @@ public class UIFindComponent : Editor
     /// 打印里面输出Config
     /// </summary>
     /// <param name="obj"></param>
-    public static string DebugOutDemo(Dictionary<string, List<Component>> controlDic, bool isGetSet)
+    public static string DebugOutDemo(FindConfig findtConfig)
     {
         //字典重新排列
-        Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(controlDic);
+        Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(findtConfig.controlDic);
         //打印
         StringBuilder sb = new StringBuilder();
         foreach (var item in controlDicTemp)
@@ -204,7 +204,7 @@ public class UIFindComponent : Editor
             }
             foreach (var child in item.Value)
             {
-                if (isGetSet)
+                if (findtConfig.isGetSet)
                     sb.AppendLine($"public {itemKey} {child}{itemKey} {{ set; get; }}");
                 else
                     sb.AppendLine($"public {itemKey} {child}{itemKey};");
@@ -221,12 +221,12 @@ public class UIFindComponent : Editor
     /// </summary>
     /// <param name="beginStr"></param>
     /// <param name="controlDic"></param>
-    public static string DebugOutGetComponentDemo(Dictionary<string, List<Component>> controlDic, string beginStr, bool isAddPrefix)
+    public static string DebugOutGetComponentDemo(FindConfig findtConfig)
     {
         //添加前缀
-        beginStr = isAddPrefix ? AddPrefix(beginStr) : string.Empty;
+        findtConfig.beginStr = findtConfig.isAddPrefix ? AddPrefix(findtConfig.beginStr) : string.Empty;
         //字典重新排列 重新排列
-        Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(controlDic);
+        Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(findtConfig.controlDic);
         //打印
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("/// <summary>");
@@ -244,8 +244,21 @@ public class UIFindComponent : Editor
                     itemKey = "Transform";
                     break;
             }
-            foreach (var child in item.Value)
-                sb.AppendLine($"\t{child}{itemKey} = {beginStr}Get{itemKey}(\"{child}\");");
+            switch (findtConfig.findComponentType)
+            {
+                case FindConfig.FindComponentType.UIFind:
+                    foreach (var child in item.Value)
+                        sb.AppendLine($"\t{child}{itemKey} = {findtConfig.beginStr}Get{itemKey}(\"{child}\");");
+                    break;
+                case FindConfig.FindComponentType.TfFing:
+                    foreach (var child in item.Value)
+                        sb.AppendLine($"\t{child}{itemKey} = {findtConfig.beginStr}OnGet{itemKey}(\"{child}\");");
+                    break;
+                default:
+                    break;
+            }
+
+           
             sb.AppendLine();
         }
         sb.AppendLine("}");
@@ -259,12 +272,12 @@ public class UIFindComponent : Editor
     /// </summary>
     /// <param name="beginStr"></param>
     /// <param name="controlDic"></param>
-    public static string DebugOutAddListenerDemo(string beginStr, Dictionary<string, List<Component>> controlDic)
+    public static string DebugOutAddListenerDemo(FindConfig findtConfig)
     {
         //添加前缀
-        beginStr = AddPrefix(beginStr);
+        findtConfig.beginStr = AddPrefix(findtConfig.beginStr);
         //字典重新排列 重新排列
-        Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(controlDic);
+        Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(findtConfig.controlDic);
         //打印
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("/// <summary>");
@@ -281,11 +294,11 @@ public class UIFindComponent : Editor
                 {
                     case "Button":
                         //V_HeiShiButton.onClick.AddListener(cityUI.HeiShi); 模板
-                        sb.AppendLine($"{child}{itemKey}.onClick.AddListener({beginStr}{child}AddListener);");
+                        sb.AppendLine($"{child}{itemKey}.onClick.AddListener({findtConfig.beginStr}{child}AddListener);");
                         break;
                     case "Toggle":
                         //toggle.onValueChanged.AddListener(toggleAddListener); 模板
-                        sb.AppendLine($"{child}{itemKey}.onValueChanged.AddListener({beginStr}{child}AddListener);");
+                        sb.AppendLine($"{child}{itemKey}.onValueChanged.AddListener({findtConfig.beginStr}{child}AddListener);");
                         break;
                     default:
                         break;
@@ -296,5 +309,58 @@ public class UIFindComponent : Editor
         sb.AppendLine("}");
         Debug.Log(sb.ToString());
         return sb.ToString();
+    }
+}
+
+
+
+/// <summary>
+/// Find类型查找配置文件
+/// </summary>
+public class FindConfig
+{
+    /// <summary>
+    /// 查找类型
+    /// </summary>
+    public enum FindComponentType
+    {
+        UIFind,
+        TfFing,
+    }
+
+    /// <summary>
+    /// 查找类型
+    /// </summary>
+    public FindComponentType findComponentType { get; set; } = FindComponentType.UIFind;
+
+    /// <summary>
+    /// 关键词 例如V_
+    /// </summary>
+
+    public string KeyValue { get; set; }
+
+    /// <summary>
+    /// 是否添加前缀
+    /// </summary>
+    public bool isAddPrefix { get; set; } = false;
+
+    /// <summary>
+    /// 是否是GetSet生成
+    /// </summary>
+    public bool isGetSet { get; set; } = true;
+
+    /// <summary>
+    /// 用于代码生成输入的前缀
+    /// </summary>
+    public string beginStr { get; set; }
+
+    /// <summary>
+    /// 数据字典
+    /// </summary>
+    public Dictionary<string, List<Component>> controlDic { get;set; }
+
+    public FindConfig()
+    {
+        controlDic = new Dictionary<string, List<Component>>();
     }
 }
