@@ -140,7 +140,7 @@ public class UIAutomationTool : EditorWindow
                             isAddPrefix = true,
                             KeyValue = TransformPrefix,
                             beginStr = InputTransformComponentName,
-                            findComponentType = FindConfig.FindComponentType.TfFing,
+                            findComponentType = FindConfig.FindComponentType.TfFing
                         });
                     }
                     //******************************组件重命名******************************
@@ -201,12 +201,14 @@ public class UIAutomationTool : EditorWindow
         Dictionary<string, List<Component>> ComponentsDic = UIFindComponent.FindComponents(obj, findtConfig.KeyValue);
         findtConfig.controlDic = ComponentsDic;
         StringBuilder sb = new StringBuilder();
+        sb.AppendLine("#region UI代码");
         //打印组件代码
         sb.AppendLine(UIFindComponent.DebugOutDemo(findtConfig));
         //获取组件
         sb.AppendLine(UIFindComponent.DebugOutGetComponentDemo(findtConfig));
         //按钮监听
         sb.AppendLine(UIFindComponent.DebugOutAddListenerDemo(findtConfig));
+        sb.AppendLine("#endregion");
         Debug.Log(sb.ToString());
     }
     //*****************************************************UI*****************************************************

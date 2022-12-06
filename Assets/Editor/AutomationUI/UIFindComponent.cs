@@ -192,6 +192,7 @@ public class UIFindComponent : Editor
         Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(findtConfig.controlDic);
         //打印
         StringBuilder sb = new StringBuilder();
+        sb.AppendLine("#region 组件模块");
         foreach (var item in controlDicTemp)
         {
             string itemKey = item.Key;
@@ -211,6 +212,7 @@ public class UIFindComponent : Editor
             }
             sb.AppendLine();
         }
+        sb.AppendLine("#endregion");
         Debug.Log(sb.ToString());
         return sb.ToString();
     }
@@ -229,6 +231,7 @@ public class UIFindComponent : Editor
         Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(findtConfig.controlDic);
         //打印
         StringBuilder sb = new StringBuilder();
+        sb.AppendLine("#region 获取组件模块");
         sb.AppendLine("/// <summary>");
         sb.AppendLine("/// 获取组件");
         sb.AppendLine("/// </summary>");
@@ -258,10 +261,11 @@ public class UIFindComponent : Editor
                     break;
             }
 
-           
+
             sb.AppendLine();
         }
         sb.AppendLine("}");
+        sb.AppendLine("#endregion");
         Debug.Log(sb.ToString());
         return sb.ToString();
     }
@@ -280,6 +284,7 @@ public class UIFindComponent : Editor
         Dictionary<string, List<string>> controlDicTemp = ReArrangeDic(findtConfig.controlDic);
         //打印
         StringBuilder sb = new StringBuilder();
+        sb.AppendLine("#region 按钮监听模块");
         sb.AppendLine("/// <summary>");
         sb.AppendLine("/// 按钮监听");
         sb.AppendLine("/// </summary>");
@@ -307,6 +312,7 @@ public class UIFindComponent : Editor
             sb.AppendLine();
         }
         sb.AppendLine("}");
+        sb.AppendLine("#endregion");
         Debug.Log(sb.ToString());
         return sb.ToString();
     }
@@ -357,7 +363,7 @@ public class FindConfig
     /// <summary>
     /// 数据字典
     /// </summary>
-    public Dictionary<string, List<Component>> controlDic { get;set; }
+    public Dictionary<string, List<Component>> controlDic { get; set; }
 
     public FindConfig()
     {
