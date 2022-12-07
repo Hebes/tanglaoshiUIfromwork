@@ -16,15 +16,15 @@ namespace Tool.ExcelChange
         /// <summary>
         /// 保存C#脚本的路径 Assets/UIAutomatedTool/Editor/OutPut/C#/AssetC#
         /// </summary>
-        public static readonly string assetCSharpSavePath = Application.dataPath + "/UIAutomateTool/Editor/OutPut/C#/AssetC#";
+        public static readonly string assetCSharpSavePath = Application.dataPath + "/Editor/OutPut/C#/AssetC#";
         /// <summary>
         /// 保存asset的路径 Assets/UIAutomatedTool/Editor/OutPut/Assets
         /// </summary>
-        public static readonly string assetSavePath = "Assets/UIAutomateTool/Editor/OutPut/Assets";
+        public static readonly string assetSavePath = "Assets/Editor/OutPut/Assets";
         /// <summary>
         /// 加载图片的路径 后续可自己修改 默认可以加载png 和 jpg
         /// </summary>
-        public static readonly string loadImagePath = "Assets/UIAutomateTool/Editor/ExcleChange/Image";
+        public static readonly string loadImagePath = "Assets/Editor/ExcleChange/Image";
         /// <summary>
         /// 命名空间
         /// </summary>

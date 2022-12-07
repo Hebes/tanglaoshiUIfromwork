@@ -9,13 +9,23 @@ using Tool;
 using System;
 using Newtonsoft.Json;
 
+
+public class ApiResult<T>
+{
+    public string table { get; set; }
+    /// <summary>
+    /// 接口操作结果
+    /// </summary>
+    public T OperationData { get; set; }
+}
+
 public class ExcelToJson
 {
     /// <summary>
     /// 保存Jsonc#脚本的路径
     /// </summary>
-    public static readonly string JsonCSharpSavePath = $"{Application.dataPath}/UIAutomateTool/Editor/OutPut/C#/JsonC#";
-    public static readonly string JsonTxtSavePath = $"{Application.dataPath}/UIAutomateTool/Editor/OutPut/Json";
+    public static readonly string JsonCSharpSavePath = $"{Application.dataPath}/Editor/OutPut/C#/JsonC#";
+    public static readonly string JsonTxtSavePath = $"{Application.dataPath}/Editor/OutPut/Json";//Assets/Editor/OutPut/Json
 
 
     private static readonly string data = "JsonData";
@@ -65,12 +75,23 @@ public class ExcelToJson
     /// <param name="textAsset"></param>
     public static void ParseJson(TextAsset textAsset)
     {
-        CharectJsonData charectJsonData = JsonConvert.DeserializeObject<CharectJsonData>(textAsset.text);
-        List<CharectJsonInfo> charectJsonInfoList = charectJsonData.CharectJsonInfo;
-        for (int i = 0; i < charectJsonInfoList.Count; i++)
+        List<CharectJsonData>  charectJsonData = ExcelToJson.Callback<CharectJsonData>(textAsset.text);
+        for (int i = 0; i < charectJsonData.Count; i++)
         {
-            UnityEngine.Debug.Log(charectJsonInfoList[i].Name);
+            UnityEngine.Debug.Log(charectJsonData[i].Name);
         }
+    }
+
+    /// <summary>
+    /// 转换接口
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="msg"></param>
+    /// <returns></returns>
+    public static List<T> Callback<T>(string msg)
+    {
+        ApiResult<List<T>> res = JsonConvert.DeserializeObject<ApiResult<List<T>>>(msg);
+        return res.OperationData;
     }
 
     /// <summary>
@@ -80,9 +101,7 @@ public class ExcelToJson
     /// <param name="excelDataList">数据</param>
     private static string JsonCSharp(string tableName, List<ExcelData> excelDataList)
     {
-        string str1 = tableName + data;
-        string str2 = tableName + info;
-
+        string str2 = tableName + data;
 
         StringBuilder sb = new StringBuilder();
 
@@ -99,12 +118,6 @@ public class ExcelToJson
         sb.AppendLine("using System.Collections.Generic;");
         sb.AppendLine();
 
-        //前半部分
-        sb.AppendLine($"\tpublic class {str1}");
-        sb.AppendLine("\t{");
-        sb.AppendLine("\t\tpublic string table { get ; set; }");//public string table { get; set; }
-        sb.AppendLine($"\t\tpublic List<{str2}> {str2} {"{ get ; set; }"}");//public List<CharectJsonInfo> CharectJsonInfo { get; set; }
-        sb.AppendLine("\t}");
 
         //下半部分
         sb.AppendLine($"\tpublic class {str2}");
@@ -140,7 +153,7 @@ public class ExcelToJson
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("{");
         sb.AppendLine($"\t\"table\": \"{tableName}{data}\",");
-        sb.AppendLine($"\t\"{tableName}{info}\":");
+        sb.AppendLine($"\t\"OperationData\":");//$"\t\"{tableName}{info}\":"
         sb.AppendLine("\t[");
         for (int e = 0; e < excelDatas2.Count; e++)
         {
@@ -153,7 +166,7 @@ public class ExcelToJson
                     case "List<string>":
                     case "List<int>":
                     case "List<float>":
-                        if (c< excelDatasTemp3.Count-1)
+                        if (c < excelDatasTemp3.Count - 1)
                             sb.AppendLine($"\t\t\t\"{excelDatasTemp2[c]}\": \"[{excelDatasTemp3[c]}]\",");
                         else
                             sb.AppendLine($"\t\t\t\"{excelDatasTemp2[c]}\": \"[{excelDatasTemp3[c]}]\"");
@@ -182,7 +195,7 @@ public class ExcelToJson
                 }
             }
 
-            
+
             if (e < excelDatasTemp3.Count)
                 sb.AppendLine("\t\t},");
             else

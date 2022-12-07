@@ -198,7 +198,7 @@ namespace Tool.ExcelChange
                         //测试Json解析
                         if (GUILayout.Button("测试Json解析", GUILayout.Width(110f)))
                         {
-                            TextAsset textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/UIAutomateTool/Editor/OutPut/Json/CharectConfig.Txt");
+                            TextAsset textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>("Assets/Editor/OutPut/Json/CharectConfig.Txt");
                             ExcelToJson.ParseJson(textAsset);
                         }
                     }

@@ -1,6 +1,6 @@
 {
 	"table": "Charect1JsonData",
-	"Charect1JsonInfo":
+	"OperationData":
 	[
 		{
 			"ID": 1,

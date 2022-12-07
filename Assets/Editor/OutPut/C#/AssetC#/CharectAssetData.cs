@@ -1,7 +1,7 @@
 /*---------------------------------
  *Title:Excel转Asset自动化成代码生成工具
  *Author:暗沉
- *Date:2022/11/8 17:44:24
+ *Date:2022/12/6 21:35:01
  *Description:Excel转Asset自动化成代码生成工具
  *注意:以下文件是自动生成的，任何手动修改都会被下次生成覆盖,若手动修改后,尽量避免自动生成
 ---------------------------------*/
@@ -23,7 +23,7 @@ namespace Asset
 		{
 			CharectAssetData manager = (CharectAssetData)ScriptableObject.CreateInstance<CharectAssetData>();
 			manager.CharectList = Charects;
-			AssetDatabase.CreateAsset(manager,"Assets/UIAutomateTool/Editor/OutPut/Assets/CharectAssetData.asset");
+			AssetDatabase.CreateAsset(manager,"Assets/Editor/OutPut/Assets/CharectAssetData.asset");
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
 		}
